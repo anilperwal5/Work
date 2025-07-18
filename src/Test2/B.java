@@ -7,5 +7,6 @@ import Test1.A;
 		
 		B a = new B();
 		a.run();
+		System.out.println("hello");
 	}
 }

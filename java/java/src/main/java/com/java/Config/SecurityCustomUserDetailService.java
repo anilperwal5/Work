@@ -1,7 +1,4 @@
-package com.java.Service;
-
-import com.java.Entity.User;
-import com.java.Repository.UserRepo;
+package com.java.Config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,19 +6,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.java.Repository.UserRepo;
+
 @Service
-public class UserServiceImpl implements UserService{
+public class SecurityCustomUserDetailService implements UserDetailsService {
 
     @Autowired
     private UserRepo userRepo;
 
-    public UserServiceImpl(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
-
     @Override
-    public void saveUser(User user) {
-        userRepo.save(user);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return (UserDetails) userRepo.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
     }
 
 }

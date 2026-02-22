@@ -8,6 +8,9 @@
 <body>
     <h1>Login</h1>
 
+    <div th:if="${error}">
+        <p style="color:red;" th:text="${error}">Invalid username or password.</p>
+    </div>
     <div th:if="${param.error}">
         <p style="color:red;">Invalid username or password.</p>
     </div>

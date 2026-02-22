@@ -30,11 +30,13 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> 
-                auth.requestMatchers("/home", "/signup", "/register", "/login", "/authenticate", "/logout", "/auth/login").permitAll()
-                    .anyRequest().authenticated()
+                auth.requestMatchers("/user", "/index").authenticated()
+                    .requestMatchers("/actuator/**").permitAll()
+                    .anyRequest().permitAll()
             )
             .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(daoAuthenticationProvider());
 
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 

@@ -35,6 +35,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getServletPath();
+        return path.equals("/login") || path.equals("/authenticate") || path.equals("/signup")
+                || path.equals("/register") || path.equals("/home") || path.equals("/logout")
+                || path.equals("/auth/login");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
